@@ -25,8 +25,9 @@ export default function ForgotPassword() {
             <input type="email" id='email' value={email} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out'  placeholder='Email Address' onChange={onChange} />
             
             <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg'>
-              <p>                
-                <Link to="/sign-up" className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out'>Don't have account? Register</Link>
+              <p> 
+                Don't have account?               
+                <Link to="/sign-up" className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1'>Register</Link>
               </p>
               <p>
                 <Link to="/sign-in" className='text-blue-600 hover:text-blue-700 transition duration-200 ease-in-out' >Sign In</Link>
