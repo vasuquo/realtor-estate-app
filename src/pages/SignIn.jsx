@@ -1,21 +1,46 @@
 import React from 'react'
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
 import img_key from '../images/maria-ziegler-jJnZg7vBfMs-unsplash.jpg';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
+
 
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState( {email: "", password: ""} );
   const {email, password} = formData;
+  const navigate = useNavigate()
 
   function onChange(e) {
      
     setFormData(
        (prevState) => ( { ...prevState, [e.target.id]: e.target.value } )
     );
+
+  }
+
+  async function onSubmit(e) {
+
+    e.preventDefault();
+
+    try {
+
+      const auth = getAuth();
+      const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+
+      if (userCredentials.user) {
+         navigate("/")
+      }
+      
+    } catch (error) {
+
+      toast.error("Invalid user credentials")
+      
+    }
 
   }
   return (
@@ -26,7 +51,7 @@ export default function SignIn() {
          <img src={img_key} alt="key"  className='w-full rounded-2xl'/>
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'> 
-          <form className='space-y-6 mb-6'> 
+          <form onSubmit={onSubmit} className='space-y-6 mb-6'> 
             <input type="email" id='email' value={email} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out'  placeholder='Email Address' onChange={onChange} />
             <div className='relative'>
               <input type={showPassword ? "text" : "password"} id='password' value={password} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' placeholder='Password' onChange={onChange}  />
