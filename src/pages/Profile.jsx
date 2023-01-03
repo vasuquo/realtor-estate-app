@@ -9,7 +9,7 @@ import { db } from '../firebase'
 export default function Profile() {
   const auth = getAuth()
   const navigate = useNavigate()
-  const [formData, setFormData] = useState( { name: "Victor", email: "vasuquo@gmail.com" } )
+  const [formData, setFormData] = useState( { name: auth.currentUser.displayName, email: auth.currentUser.email } )
   const [changeDetail, setChangeDetail] = useState(false)
   const {name, email} = formData
 
@@ -55,13 +55,13 @@ export default function Profile() {
         <form >
           {/* Name Input */}
 
-          <input type="text" id='name' value={name} disabled={!changeDetail} onChange={onChange} className={ `mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${changeDetail  &&  " bg-red-200  focus:bg-red-200 " } ` } />
+          <input type="text" id='name' value={name} disabled={!changeDetail} onChange={onChange} className={ `mb-6 w-full px-6 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${changeDetail  &&  " bg-red-200  focus:bg-red-200 " } ` } />
           {/* Email Input */}
 
-          <input type="email" id='email' value={email} disabled={!changeDetail} onChange={onChange} className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out' />
+          <input type="email" id='email' value={email} disabled={!changeDetail} onChange={onChange} className='mb-6 w-full px-6 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out' />
         </form>
-      </div>
-      <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6'>
+
+        <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6'>
         <p className='flex items-center'>
           Change profile Name?
           <span onClick={ () => { changeDetail && onSubmit();  setChangeDetail(  (prevState) => !prevState  )   }  } className=' text-red-600 px-2 cursor-pointer hover:text-red-700 transition ease-in-out duration-200'>
@@ -70,6 +70,9 @@ export default function Profile() {
         </p>
         <p onClick={onLogOut} className=' text-blue-600 hover:text-blue-800 cursor-pointer'>Sign out</p>
       </div>
+
+      </div>
+      
     </section>
 
     </>
